@@ -41,14 +41,22 @@ printStock()
  clear
  cat $result | awk '{
 	len=split(substr($result,index($result,"=")+2,100),arr,",");
-	name=substr(arr[1],0,16)
-	open=substr(arr[2],0,8)
-	old=substr(arr[3],0,8)
-	cur=substr(arr[4],0,8)
-	top=substr(arr[5],0,8)
-	bottom=substr(arr[6],0,8)
-	gap=substr((cur-old)/old*100,0,8)
-
+		name=substr(arr[1],0,16)
+		open=substr(arr[2],0,8)
+	if(open=="0.00"){ #check if is suspended
+		open="---"
+		old="---"
+		cur="---"
+		top="---"
+		bottom="---"
+		gap="---"
+	} else {
+		old=substr(arr[3],0,8)
+		cur=substr(arr[4],0,8)
+		top=substr(arr[5],0,8)
+		bottom=substr(arr[6],0,8)
+		gap=substr((cur-old)/old*100,0,8)
+	}
 	printf("%s\t",name)
 	printf("\033[36m%s\033[0m\t",open)
 	printf("%s\t",old)
